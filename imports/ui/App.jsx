@@ -23,12 +23,7 @@ class App extends Component {
 		//Find the tect field via the React ref
 		const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
 
-		Tasks.insert({
-			text,
-			createdAt: new Date(), 				// Current time
-			owner: Meteor.userId(), 			//_id of logged in user
-			username: Meteor.user().username, 	//username of logged in user
-		});
+		Meteor.call('tasks.insert', text);
 
 		ReactDOM.findDOMNode(this.refs.textInput).value = '';
 	}
