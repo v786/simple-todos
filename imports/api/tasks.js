@@ -4,6 +4,13 @@ import { check } from 'meteor/check';
 
 export const Tasks = new Mongo.Collection('tasks');
 
+if(Meteor.isServer){
+	//This code only runs on the server
+	Meteor.publish('tasks', function tasksPublication() {
+		return Tasks.find();
+	});
+}
+
 Meteor.methods({
 	'tasks.insert'(text){
 		check(text, String);
@@ -26,7 +33,7 @@ Meteor.methods({
 		Tasks.remove(taskId);
 	},
 	'tasks.setChecked'(taskId, setChecked) {
-		cehck(taskId, String);
+		check(taskId, String);
 		check(setChecked, Boolean);
 		Tasks.update(tasksId, { $set: {checked: setChecked}});
 	},
